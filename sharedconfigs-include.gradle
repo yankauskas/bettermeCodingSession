@@ -1,7 +1,6 @@
 apply plugin: "de.mannodermaus.android-junit5"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 /**
  * To avoid code duplication all common android modules related setup is done here.
@@ -43,6 +42,9 @@ android {
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        buildFeatures {
+            viewBinding true
+        }
     }
 
     buildTypes {
@@ -73,9 +75,6 @@ android {
         kotlinOptions.jvmTarget = jvmTargetVer
     }
 
-    // Enabling kotlin view binding in adapters
-    androidExtensions.experimental = true
-
     // Setting reports location for each module and using junit platform
     testOptions {
         unitTests.all {
@@ -100,7 +99,7 @@ android {
 
 allprojects {
     tasks.withType(JavaCompile).all {
-        options.compilerArgs += '-Adagger.gradle.incremental=enabled'
+//        options.compilerArgs += '-Adagger.gradle.incremental=enabled'
         options.compilerArgs += [
                 '-Xlint:-deprecation',
                 "-Xlint:unchecked"
@@ -109,7 +108,7 @@ allprojects {
 
     afterEvaluate {
         extensions.findByName('kapt')?.arguments {
-            arg("dagger.gradle.incremental", "enabled")
+//            arg("dagger.gradle.incremental", "enabled")
         }
     }
 }

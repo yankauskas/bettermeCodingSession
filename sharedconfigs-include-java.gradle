@@ -16,7 +16,7 @@ compileTestKotlin {
 
 allprojects {
     tasks.withType(JavaCompile).all {
-        options.compilerArgs += '-Adagger.gradle.incremental=enabled'
+//        options.compilerArgs += '-Adagger.gradle.incremental=enabled'
         // Disable build warnings for CI build
         options.compilerArgs += [
                 '-Xlint:-deprecation',
@@ -26,7 +26,7 @@ allprojects {
 
     afterEvaluate {
         extensions.findByName('kapt')?.arguments {
-            arg("dagger.gradle.incremental", "enabled")
+//            arg("dagger.gradle.incremental", "enabled")
         }
     }
 }

@@ -20,7 +20,7 @@ ext {
 
     // DI
     javaXInjectVer = '1'
-    daggerVer = '2.29.1'
+    daggerVer = '2.40.5'
 
     // Reactive Extensions
     rxJava2Ver = '2.2.20'
