@@ -14,8 +14,8 @@ import app.bettermetesttask.featurecommon.utils.views.gone
 import app.bettermetesttask.featurecommon.utils.views.visible
 import app.bettermetesttask.movies.R
 import app.bettermetesttask.movies.databinding.MoviesFragmentBinding
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -30,8 +30,6 @@ class MoviesFragment : Fragment(R.layout.movies_fragment), Injectable {
     private lateinit var binding: MoviesFragmentBinding
 
     private val viewModel by viewModels<MoviesViewModel> { SimpleViewModelProviderFactory(viewModelProvider) }
-
-    private var job: Job? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = MoviesFragmentBinding.inflate(inflater, container, false)
@@ -51,21 +49,10 @@ class MoviesFragment : Fragment(R.layout.movies_fragment), Injectable {
         adapter.onItemLiked = { movie ->
             viewModel.likeMovie(movie)
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
+        lifecycleScope.launch { viewModel.moviesStateFlow.collect(::renderMoviesState) }
 
         viewModel.loadMovies()
-
-        job = lifecycleScope.launchWhenCreated {
-            viewModel.moviesStateFlow.collect(::renderMoviesState)
-        }
-    }
-
-    override fun onDestroyView() {
-        job?.cancel()
-        super.onDestroyView()
     }
 
     private fun renderMoviesState(state: MoviesState) {
@@ -74,11 +61,13 @@ class MoviesFragment : Fragment(R.layout.movies_fragment), Injectable {
                 binding.rvList.gone()
                 binding.progressBar.visible()
             }
+
             is MoviesState.Loaded -> {
                 binding.progressBar.gone()
                 binding.rvList.visible()
                 adapter.submitList(state.movies)
             }
+
             else -> {
                 // no op
                 binding.progressBar.gone()
