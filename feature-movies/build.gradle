@@ -23,6 +23,7 @@ dependencies {
     implementation androidXDependencies.navigationFragment
     implementation androidXDependencies.lifecycleExtensions
     implementation androidXDependencies.lifecycle
+    implementation androidXDependencies.swipeRefreshlayout
 
     implementation uiDependencies.glide
     kapt uiDependencies.glideCompiler

@@ -10,6 +10,7 @@ ext {
     constraintLayoutVer = '2.0.4'
     browserVer = '1.2.0'
     workManagerVer = '2.4.0'
+    swipeRefreshLayoutVer = '1.1.0'
 
     // Coroutines
     coroutinesVer = '1.4.0'
@@ -73,7 +74,8 @@ ext {
             androidKtx          : "androidx.core:core-ktx:$androidKtxVer",
             fragmentKtx         : "androidx.fragment:fragment-ktx:$fragmentVer",
             browser             : "androidx.browser:browser:$browserVer",
-            workManagerKtx      : "androidx.work:work-runtime-ktx:$workManagerVer"
+            workManagerKtx      : "androidx.work:work-runtime-ktx:$workManagerVer",
+            swipeRefreshlayout  : "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVer"
     ]
 
     kotlinDependencies = [

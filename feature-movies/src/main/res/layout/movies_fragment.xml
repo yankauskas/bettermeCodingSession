@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvList"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:fontFamily="@font/roboto_mono"
-        android:gravity="center"
-        android:text="@string/movies_title"
-        android:textColor="@color/sandy_orange"
-        android:textSize="24sp"
-        android:visibility="gone"
-        tools:visibility="visible" />
-    
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:fontFamily="@font/roboto_mono"
+            android:gravity="center"
+            android:text="@string/movies_title"
+            android:textColor="@color/sandy_orange"
+            android:textSize="24sp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
         android:layout_gravity="center"
         android:foregroundTint="@color/pure_red"
+        android:indeterminate="true"
         android:indeterminateTint="@color/pure_red"
-        android:id="@+id/progressBar"
         android:visibility="gone"
         tools:visibility="visible" />
 </FrameLayout>

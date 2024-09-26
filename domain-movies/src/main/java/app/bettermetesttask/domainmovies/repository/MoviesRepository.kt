@@ -6,9 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepository {
 
-    suspend fun getMovies(): Result<List<Movie>>
+    suspend fun loadMovies(): Result<Unit>
 
     suspend fun getMovie(id: Int): Result<Movie>
+
+    fun observeMovies(): Flow<List<Movie>>
 
     fun observeLikedMovieIds(): Flow<List<Int>>
 

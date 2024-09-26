@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -42,6 +43,8 @@ class MoviesFragment : Fragment(R.layout.movies_fragment), Injectable {
         binding.rvList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvList.adapter = adapter
 
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.pure_red)
+
         adapter.onItemClicked = { movie ->
             viewModel.openMovieDetails(movie)
         }
@@ -50,29 +53,40 @@ class MoviesFragment : Fragment(R.layout.movies_fragment), Injectable {
             viewModel.likeMovie(movie)
         }
 
-        lifecycleScope.launch { viewModel.moviesStateFlow.collect(::renderMoviesState) }
+        binding.swipeRefreshLayout.setOnRefreshListener { viewModel.loadMovies() }
 
-        viewModel.loadMovies()
+        lifecycleScope.launch { viewModel.moviesStateFlow.collect(::renderMoviesState) }
+        lifecycleScope.launch { viewModel.loadingErrorFlow.collect(::renderMoviesLoadingError) }
     }
 
     private fun renderMoviesState(state: MoviesState) {
-        when (state) {
-            MoviesState.Loading -> {
-                binding.rvList.gone()
-                binding.progressBar.visible()
+
+        adapter.submitList(state.movies)
+
+        when (state.loading) {
+            MoviesLoadingState.Loaded -> {
+                binding.progressBar.gone()
+                binding.swipeRefreshLayout.isEnabled = true
+                binding.swipeRefreshLayout.isRefreshing = false
             }
 
-            is MoviesState.Loaded -> {
-                binding.progressBar.gone()
-                binding.rvList.visible()
-                adapter.submitList(state.movies)
+            MoviesLoadingState.Loading -> {
+                if (state.movies.isEmpty() && binding.swipeRefreshLayout.isRefreshing.not()) {
+                    binding.progressBar.visible()
+                    binding.swipeRefreshLayout.isEnabled = false
+                }
             }
 
-            else -> {
-                // no op
-                binding.progressBar.gone()
-                binding.rvList.gone()
-            }
+            else -> {}
         }
+
+    }
+
+    private fun renderMoviesLoadingError(error: MoviesLoadingError) {
+        Toast.makeText(
+            requireContext(),
+            error.message ?: getString(R.string.error_unknown),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
