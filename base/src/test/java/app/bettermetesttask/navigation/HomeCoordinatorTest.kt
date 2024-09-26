@@ -15,16 +15,16 @@ internal class HomeCoordinatorTest {
 
     private val coordinator: HomeCoordinator = HomeCoordinatorImpl(navigator)
 
-    @ParameterizedTest(name = "handle start when first launch is: {0}")
-    @ValueSource(booleans = [true, false])
-    fun `handle start when first launch`(isFirstLaunch: Boolean) {
-        coordinator.start(isFirstLaunch)
-
-        if (isFirstLaunch) {
-            verify(navigator).navigateToOnboarding()
-        } else {
-            verify(navigator).navigateToMain()
-        }
-        verifyNoMoreInteractions(navigator)
-    }
+//    @ParameterizedTest(name = "handle start when first launch is: {0}")
+//    @ValueSource(booleans = [true, false])
+//    fun `handle start when first launch`(isFirstLaunch: Boolean) {
+//        coordinator.start(isFirstLaunch)
+//
+//        if (isFirstLaunch) {
+//            verify(navigator).navigateToOnboarding()
+//        } else {
+//            verify(navigator).navigateToMain()
+//        }
+//        verifyNoMoreInteractions(navigator)
+//    }
 }

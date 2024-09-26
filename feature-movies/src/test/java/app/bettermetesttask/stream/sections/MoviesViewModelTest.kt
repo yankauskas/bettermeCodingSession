@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 @ExtendWith(InstantTaskExecutorExtension::class, MockitoExtension::class)
 internal class MoviesViewModelTest {
 
-    private val viewModel = MoviesViewModel()
+//    private val viewModel = MoviesViewModel()
 
 
 }
