@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import app.bettermetesttask.featurecommon.injection.utils.Injectable
 import app.bettermetesttask.featurecommon.injection.viewmodel.SimpleViewModelProviderFactory
 import app.bettermetesttask.featurecommon.utils.views.gone
@@ -39,6 +40,9 @@ class MoviesFragment : Fragment(R.layout.movies_fragment), Injectable {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.rvList.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvList.adapter = adapter
 
         adapter.onItemClicked = { movie ->
             viewModel.openMovieDetails(movie)
@@ -73,6 +77,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment), Injectable {
             is MoviesState.Loaded -> {
                 binding.progressBar.gone()
                 binding.rvList.visible()
+                adapter.submitList(state.movies)
             }
             else -> {
                 // no op

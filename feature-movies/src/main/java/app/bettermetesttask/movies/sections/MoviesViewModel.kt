@@ -17,8 +17,7 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val observeMoviesUseCase: ObserveMoviesUseCase,
     private val likeMovieUseCase: AddMovieToFavoritesUseCase,
-    private val dislikeMovieUseCase: RemoveMovieFromFavoritesUseCase,
-    private val adapter: MoviesAdapter
+    private val dislikeMovieUseCase: RemoveMovieFromFavoritesUseCase
 ) : ViewModel() {
 
     private val moviesMutableFlow: MutableStateFlow<MoviesState> = MutableStateFlow(MoviesState.Initial)
@@ -32,7 +31,6 @@ class MoviesViewModel @Inject constructor(
                 .collect { result ->
                     if (result is Result.Success) {
                         moviesMutableFlow.emit(MoviesState.Loaded(result.data))
-                        adapter.submitList(result.data)
                     }
                 }
         }
