@@ -17,7 +17,7 @@ internal class SplashViewModelTest {
     private val preferences: Preferences = mock()
     private val coordinator: HomeCoordinator = mock()
 
-    private val viewModel = SplashViewModel(coordinator)
+    private val viewModel = SplashViewModel(coordinator, preferences)
 
     @Test
     fun `handle app launch`() {
