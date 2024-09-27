@@ -12,10 +12,9 @@ import javax.inject.Inject
 
 class MoviesRepositoryImpl @Inject constructor(
     private val localStore: MoviesLocalStore,
+    private val restStore: MoviesRestStore,
     private val mapper: MoviesMapper
 ) : MoviesRepository {
-
-    private val restStore = MoviesRestStore()
 
     override suspend fun loadMovies(): Result<Unit> =
         Result.of {
